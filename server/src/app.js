@@ -1,11 +1,10 @@
 const express = require("express");
- bcrypt
-
- helmet
- morgan
- cors
- mongoose
- jsonwebtoken
+ const bcrypt = require("bcrypt");
+ const helmet = require("helmet");
+ const morgan = require("morgan");
+ const cors = require("cors")
+ const mongoose = require("mongoose");
+ const jsonwebtoken = require("jsonwebtoken");
 
 const { db } = require("./config/config");
 const api = require("./routes");
@@ -69,31 +68,7 @@ app.get('/order', function(req, res) {
 
 app.post('/payment', function(req, res) {
   fs.readFile('items.json', function(error, data) {
-    if (error) {
-      res.status(500).end()
-    } else {
-      const itemsJson = JSON.parse(data)
-      let total = 0
-      req.body.items.forEach(function(item) {
-        itemJson.find(function(i) {
-          return i.id == item.id
-        })
-        total = total + itemJson.price * item.quantity
-      })
 
-      stripe.charges.create({
-        amount: total,
-        source: req.body.stripeTokenId,
-        currency: 'usd'
-      }).then(function() {
-        console.log('Successful')
-        res.json({ message: 'Order and payment successful' })
-      }).catch(function() {
-        console.log('Charge Fail')
-        res.status(500).end()
-      })
-    }
-  })
 })
 
 app.listen(3000)
