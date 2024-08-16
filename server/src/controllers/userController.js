@@ -56,7 +56,7 @@ function jwtSignUser(user){
       //const user = await User.findOne().or([{ username }, {email}]);
 
       if (user == null){
-        return res.status(400).send({ error: "User with this login does not exist."})
+        return res.status(404).send({ error: "User with this login does not exist."})
       }
 
       const isPasswordValid = await user.verifyPassword(password);
@@ -64,6 +64,9 @@ function jwtSignUser(user){
       if(!isPasswordValid){
         return res.status(401).send({ error: "the information provided does not match. pi"})
       }
+
+      //const token = await JWT.sign({_id:user._id}, process.env.JWT_SECRET, expiresIn: "1d")
+      //res.status(200).send({success: "Good U+2713 u\{2713}", message: "", user:{name: user.name, phone: user.phone, address: user.address}, token,});
 
       res.cookie('t', jwtSignUser, { expire: new Date() + 9999 });
       const userJson = user.toJSON();
